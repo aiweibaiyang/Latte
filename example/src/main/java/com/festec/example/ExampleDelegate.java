@@ -3,6 +3,7 @@ package com.festec.example;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.festec.R;
 import com.example.latte.delegates.LatteDelegate;
@@ -23,17 +24,16 @@ public class ExampleDelegate extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-
+        testRestClient();
     }
 
     private void testRestClient(){
         RestClient.builder()
-                .url("")
-                .params("","")
+                .url("https://www.baidu.com/")
                 .success(new ISuccess() {
                     @Override
-                    public void OnSuccess(String response) {
-
+                    public void onSuccess(String response) {
+                        Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                     }
                 })
                 .failure(new IFailure() {
@@ -48,6 +48,7 @@ public class ExampleDelegate extends LatteDelegate {
 
                     }
                 })
-                .build();
+                .build()
+                .get();
     }
 }
