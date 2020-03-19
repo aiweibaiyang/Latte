@@ -22,11 +22,11 @@ public abstract class ProxyActivity extends SupportActivity {
         initContainer(savedInstanceState);
     }
 
-    private void initContainer(@Nullable Bundle savedInstanceState){//初始化视图
+    private void initContainer(@Nullable Bundle savedInstanceState) {//初始化视图
         final ContentFrameLayout container = new ContentFrameLayout(this);
         container.setId(R.id.delegate_container);
         setContentView(container);
-        if(savedInstanceState==null){
+        if (savedInstanceState == null) {
             loadRootFragment(R.id.delegate_container, setRootDelegate());//SupportActivity中独有的方法，也就是Fragment库中的方法
         }
     }
