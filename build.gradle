@@ -3,10 +3,13 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0' // 添加插件 更好支持GreenDao
+//        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
 
     }
 }

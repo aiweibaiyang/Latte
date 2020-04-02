@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
@@ -23,6 +24,13 @@ android {
     }
 }
 
+// 配置GreenDao基本参数
+greendao {
+    schemaVersion 2 //数据库版本
+    daoPackage 'com.example.entity.gen'//dao自动生成的目录
+    targetGenDir 'src/main/java'//dao所在文件
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -32,4 +40,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':latte-core')
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
 }
