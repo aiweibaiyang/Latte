@@ -26,17 +26,19 @@ public class exampleApp extends Application {
                 .withLoaderDelayed(1000)
                 .withApiHost("http://127.0.0.1/")
                 .withInterceptor(new DebugInterceptor("index", R.raw.test))
+                .withWeChatAppId("")
+                .withWeChatAppSecret("")
                 .configure();
-        initStetho();
+//        initStetho();
         DatabaseManager.getInstance().init(this);
     }
 
-    private void initStetho(){
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                .build()
-        );
-    }
+//    private void initStetho(){
+//        Stetho.initialize(
+//                Stetho.newInitializerBuilder(this)
+//                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+//                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+//                .build()
+//        );
+//    }
 }
