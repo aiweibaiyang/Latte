@@ -17,13 +17,13 @@ import okhttp3.Interceptor;
 
 public class Configurator {
     private static final HashMap<Object,Object> LATTE_CONFIGS = new HashMap<>();
-    //private static final Handler HANDLER = new Handler();
+    private static final Handler HANDLER = new Handler();
     private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();
     private static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList<>();
 
     private Configurator(){
         LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY,false);
-     //   LATTE_CONFIGS.put(ConfigKeys.HANDLER, HANDLER);
+        LATTE_CONFIGS.put(ConfigKeys.HANDLER, HANDLER);
     }
 
     public static Configurator getInstance(){
