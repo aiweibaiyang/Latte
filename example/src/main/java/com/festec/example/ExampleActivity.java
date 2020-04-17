@@ -35,7 +35,7 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public LatteDelegate setRootDelegate() {
-        //return new ExampleDelegate();
+//        return new ExampleDelegate();
         return new LauncherDelegate();
         //return new LauncherScrollDelegate();
 //        return new SignInDelegate();
@@ -56,7 +56,7 @@ public class ExampleActivity extends ProxyActivity implements
     public void onLauncherFinish(OnLauncherFinishTag tag) {
         switch (tag){
             case SIGNED:
-                Toast.makeText(this,"启动结束，用户登录了",Toast.LENGTH_LONG).show();
+//                Toast.makeText(this,"启动结束，用户登录了",Toast.LENGTH_LONG).show();
 //                startWithPop(new ExampleDelegate());
                 startWithPop(new EcBottomDelegate());
                 break;

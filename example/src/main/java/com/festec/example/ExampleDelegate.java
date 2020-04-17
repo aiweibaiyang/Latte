@@ -31,6 +31,7 @@ public class ExampleDelegate extends LatteDelegate {
     private void testRestClient(){
         RestClient.builder()
                 .url("https://127.0.0.1/index")
+//                .url("http://192.168.155.2:8081/RestServer/api/index.php")
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override
@@ -42,13 +43,13 @@ public class ExampleDelegate extends LatteDelegate {
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
-
+                        Log.d("HAHAHA", "失败");
                     }
                 })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String msg) {
-
+                        Log.d("HAHAHA", "错误");
                     }
                 })
                 .build()

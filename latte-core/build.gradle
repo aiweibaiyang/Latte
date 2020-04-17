@@ -57,8 +57,10 @@ dependencies {
     //Banner依赖
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
-    //JSON依赖
-    compile 'com.alibaba:fastjson:1.2.61'
+//    //JSON依赖
+//    compile 'com.alibaba:fastjson:1.2.61'
+    //JSON依赖Android版
+    compile 'com.alibaba:fastjson:1.1.57.android'
     //Log
     compile 'com.orhanobut:logger:2.1.1'
     //数据库依赖
@@ -66,4 +68,6 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.0.0'
     //微信依赖（包含统计）
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    //BaseRecyclerViewAdapterHelper
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.16'
 }
