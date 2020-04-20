@@ -68,9 +68,15 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.0.0'
     //微信依赖（包含统计）
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
-    //BaseRecyclerViewAdapterHelper
+    //RecyclerView依赖
+    compile 'com.choices.divider:RecyclerView_Divider:1.0.0'
+    // BaseRecyclerViewAdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.16'
     //图片处理
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+//    compile 'com.github.bumptech.glide:glide:3.7.0'
+//    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+
 }
