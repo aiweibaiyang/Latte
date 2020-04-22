@@ -86,7 +86,6 @@ public class IndexDelegate extends BottomItemDelegate {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        LatteLogger.e("handler", "handler: " + mRefreshHandler.toString());
         initRefreshLayout();
         initRecyclerView();
         mRefreshHandler.firstPage("index.php");
