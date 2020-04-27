@@ -5,8 +5,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.main.sort.SortDelegate;
+import com.example.latte.ec.main.sort.content.ContentDelegate;
 import com.example.latte.ui.recycler.ItemType;
 import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
@@ -45,16 +47,17 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
                     @Override
                     public void onClick(View v) {
                         final int currentPosition = holder.getAdapterPosition();
-                        if (mPrePosition != currentPosition){
+                        if (mPrePosition != currentPosition) {
                             //还原上一个
-                            getData().get(mPrePosition).setField(MultipleFields.TAG,false);
+                            getData().get(mPrePosition).setField(MultipleFields.TAG, false);
                             notifyItemChanged(mPrePosition);
                             //更新选中的部分
-                            entity.setField(MultipleFields.TAG,true);
+                            entity.setField(MultipleFields.TAG, true);
                             notifyItemChanged(currentPosition);
                             mPrePosition = currentPosition;
 
                             final int contentId = getData().get(currentPosition).getFiled(MultipleFields.ID);
+                            showContent(contentId);
                         }
                     }
                 });
@@ -75,6 +78,18 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void showContent(int contentId) {
+        final ContentDelegate delegate = ContentDelegate.newInstance(contentId);
+        switchContent(delegate);
+    }
+
+    private void switchContent(ContentDelegate delegate) {
+        final LatteDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
+        if (contentDelegate != null) {
+            contentDelegate.replaceFragment(delegate, false);
         }
     }
 }
