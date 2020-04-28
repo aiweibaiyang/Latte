@@ -39,7 +39,8 @@ public class ExampleActivity extends ProxyActivity implements
     @Override
     public LatteDelegate setRootDelegate() {
 //        return new ExampleDelegate();
-        return new LauncherDelegate();
+//        return new LauncherDelegate();
+        return new EcBottomDelegate();
         //return new LauncherScrollDelegate();
 //        return new SignInDelegate();
 //        return new SignUpDelegate();

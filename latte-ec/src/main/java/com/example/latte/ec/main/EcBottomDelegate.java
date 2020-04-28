@@ -6,6 +6,7 @@ import com.example.latte.delegates.bottom.BaseBottomDelegate;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.delegates.bottom.BottomTabBean;
 import com.example.latte.delegates.bottom.ItemBuilder;
+import com.example.latte.ec.main.discover.DiscoverDelegate;
 import com.example.latte.ec.main.index.IndexDelegate;
 import com.example.latte.ec.main.sort.SortDelegate;
 
@@ -21,7 +22,7 @@ public class EcBottomDelegate extends BaseBottomDelegate{
         final LinkedHashMap<BottomTabBean,BottomItemDelegate> items = new LinkedHashMap<>();
         items.put(new BottomTabBean("{fa-home}", "主页"),new IndexDelegate());
         items.put(new BottomTabBean("{fa-sort}", "分类"),new SortDelegate());
-        items.put(new BottomTabBean("{fa-compass}", "发现"),new IndexDelegate());
+        items.put(new BottomTabBean("{fa-compass}", "发现"),new DiscoverDelegate());
         items.put(new BottomTabBean("{fa-shopping-cart}", "购物车"),new IndexDelegate());
         items.put(new BottomTabBean("{fa-user}", "我的"),new IndexDelegate());
         return builder.addItem(items).build();
