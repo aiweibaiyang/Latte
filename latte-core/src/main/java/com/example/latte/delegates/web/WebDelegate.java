@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference;
  * Created by 25400 on 2020/4/28.
  */
 
-public abstract class WebDelegate extends LatteDelegate {
+public abstract class WebDelegate extends LatteDelegate implements IWebViewInitializer{
 
     private WebView mWebView = null;
     private final ReferenceQueue<WebView> WEB_VIEW_QUEUE = new ReferenceQueue<>();
@@ -56,6 +56,20 @@ public abstract class WebDelegate extends LatteDelegate {
                 throw new NullPointerException("Initializer is null!");
             }
         }
+    }
+
+    public WebView getWebView() {
+        if (mWebView == null) {
+            throw new NullPointerException("WebView IS NULL!");
+        }
+        return mIsWebViewAbailable ? mWebView : null;
+    }
+
+    public String getUrl(){
+        if (mUrl == null) {
+            throw new NullPointerException("WebView IS NULL!");
+        }
+        return mUrl;
     }
 
     @Override
