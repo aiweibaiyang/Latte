@@ -36,13 +36,10 @@ public class Router {
             return true;
         }
 
-        final LatteDelegate parentDelegate = delegate.getParentDelegate();
+        final LatteDelegate topDelegate = delegate.getTopDelegate();
+
         final WebDelegateImpl webDelegate = WebDelegateImpl.create(url);
-        if (parentDelegate==null){
-            delegate.start(webDelegate);
-        }else {
-            parentDelegate.start(webDelegate);
-        }
+        topDelegate.start(webDelegate);
         return true;
     }
 
