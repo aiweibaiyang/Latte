@@ -1,5 +1,6 @@
 package com.example.latte.ui.recycler;
 
+
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.lang.ref.ReferenceQueue;
@@ -11,7 +12,7 @@ import java.util.WeakHashMap;
  * Created by 25400 on 2020/4/16.
  */
 
-public class MultipleItemEntity implements MultiItemEntity{
+public class MultipleItemEntity implements MultiItemEntity {
 
     private final ReferenceQueue<LinkedHashMap<Object,Object>> ITEM_QUEUEQ = new ReferenceQueue<>();
     private final LinkedHashMap<Object,Object> MULTIPLE_FIELDS = new LinkedHashMap<>();
@@ -36,7 +37,7 @@ public class MultipleItemEntity implements MultiItemEntity{
         return (T) FIELDS_REFERENCE.get().get(key);
     }
 
-    public final LinkedHashMap<?,?> getFields(){
+    public final LinkedHashMap<?,?> getFields(MultipleFields id){
         return FIELDS_REFERENCE.get();
     }
 
