@@ -68,7 +68,7 @@
         android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:gravity="bottom"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <com.joanzapata.iconify.widget.IconTextView

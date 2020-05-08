@@ -5,12 +5,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.latte.app.Latte;
 import com.example.latte.ec.R;
+import com.example.latte.net.RestClient;
+import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.recycler.ItemType;
 import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
@@ -27,6 +30,8 @@ import java.util.List;
 public class ShopCartAdapter extends MultipleRecyclerAdapter {
 
     private boolean mIsSelectedAll = false;
+    private ICartItemListener mCartItemListener = null;
+    private double mTotalPrice = 0.0;
     private int mCheckCount = 0;
 
     private static final RequestOptions OPTIONS = new RequestOptions()
@@ -36,22 +41,37 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
 
     protected ShopCartAdapter(List<MultipleItemEntity> data) {
         super(data);
+        //初始化总价
+        for (MultipleItemEntity entity : data) {
+            final double price = entity.getFiled(ShopCartItemFields.PRICE);
+            final int count = entity.getFiled(ShopCartItemFields.COUNT);
+            final double total = price * count;
+            mTotalPrice = mTotalPrice + total;
+        }
         //添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
     }
 
     //删除position位置的item后要更新该位置后面所有item的 POSITION 和 IS_SELECTED , checkCount 要记得--
-    public final void updateItemRangeFieldPosition(int positionStart){
+    public final void updateItemRangeFieldPosition(int positionStart) {
         int size = this.getData().size();
-        for(int i=positionStart;i<size;i++){
-            getData().get(i).setField(ShopCartItemFields.POSITION,i);
-            getData().get(i).setField(ShopCartItemFields.IS_SELECTED,false);
+        for (int i = positionStart; i < size; i++) {
+            getData().get(i).setField(ShopCartItemFields.POSITION, i);
+            getData().get(i).setField(ShopCartItemFields.IS_SELECTED, false);
             mCheckCount--;
         }
     }
 
-    public void setIsSelectedAll(boolean isSelectedAll){
+    public void setIsSelectedAll(boolean isSelectedAll) {
         this.mIsSelectedAll = isSelectedAll;
+    }
+
+    public void setCartItemListener(ICartItemListener listener) {
+        this.mCartItemListener = listener;
+    }
+
+    public double getTotalPrice(){
+        return mTotalPrice;
     }
 
     @Override
@@ -89,10 +109,10 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                 final boolean isSelected = entity.getFiled(ShopCartItemFields.IS_SELECTED);
 
                 //根据数据状态显示左侧勾勾
-                if (isSelected){
+                if (isSelected) {
                     iconIsSelected.setTextColor
-                            (ContextCompat.getColor(Latte.getApplicationContext(),R.color.app_main));
-                }else {
+                            (ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
+                } else {
                     iconIsSelected.setTextColor(Color.GRAY);
                 }
                 //添加左侧勾勾点击事件
@@ -100,14 +120,71 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                     @Override
                     public void onClick(View v) {
                         final boolean currentSelected = entity.getFiled(ShopCartItemFields.IS_SELECTED);
-                        if (currentSelected){
+                        if (currentSelected) {
                             iconIsSelected.setTextColor(Color.GRAY);
-                            entity.setField(ShopCartItemFields.IS_SELECTED,false);
-                        }else{
+                            entity.setField(ShopCartItemFields.IS_SELECTED, false);
+                        } else {
                             iconIsSelected.setTextColor
-                                    (ContextCompat.getColor(Latte.getApplicationContext(),R.color.app_main));
-                            entity.setField(ShopCartItemFields.IS_SELECTED,true);
+                                    (ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
+                            entity.setField(ShopCartItemFields.IS_SELECTED, true);
                         }
+                    }
+                });
+                //添加加减事件
+                iconMinus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int currentCount = entity.getFiled(ShopCartItemFields.COUNT);
+                        if (Integer.parseInt(tvCount.getText().toString()) > 1) {
+                            RestClient.builder()
+                                    .url("shop_cart_count.php")
+                                    .loader(mContext)
+                                    .params("count", currentCount)
+                                    .success(new ISuccess() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            int countNum = Integer.parseInt(tvCount.getText().toString());
+                                            countNum--;
+                                            tvCount.setText(String.valueOf(countNum));
+                                            if (mCartItemListener != null) {
+                                                mTotalPrice = mTotalPrice - price;
+                                                final double itemTotal = countNum * price;
+                                                mCartItemListener.onItemClick(itemTotal);
+                                            }
+                                        }
+                                    })
+                                    .build()
+                                    .post();
+                        }
+                        if (Integer.parseInt(tvCount.getText().toString()) == 1) {
+                            Toast.makeText(mContext, "该宝贝不能减少了呦！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                iconPlus.setOnClickListener(new View.OnClickListener() {
+                    final int currentCount = entity.getFiled(ShopCartItemFields.COUNT);
+
+                    @Override
+                    public void onClick(View v) {
+                        RestClient.builder()
+                                .url("shop_cart_count.php")
+                                .loader(mContext)
+                                .params("count", currentCount)
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        int countNum = Integer.parseInt(tvCount.getText().toString());
+                                        countNum++;
+                                        tvCount.setText(String.valueOf(countNum));
+                                        if (mCartItemListener != null) {
+                                            mTotalPrice = mTotalPrice + price;
+                                            final double itemTotal = countNum * price;
+                                            mCartItemListener.onItemClick(itemTotal);
+                                        }
+                                    }
+                                })
+                                .build()
+                                .post();
                     }
                 });
                 break;
