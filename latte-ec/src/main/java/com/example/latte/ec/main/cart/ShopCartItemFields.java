@@ -9,5 +9,6 @@ enum ShopCartItemFields {
     DESC,
     COUNT,
     PRICE,
-    IS_SELECTED//标记item是否被点击
+    IS_SELECTED,//标记item是否被点击
+    POSITION
 }

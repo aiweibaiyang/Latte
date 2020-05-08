@@ -27,6 +27,7 @@ import java.util.List;
 public class ShopCartAdapter extends MultipleRecyclerAdapter {
 
     private boolean mIsSelectedAll = false;
+    private int mCheckCount = 0;
 
     private static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -37,6 +38,16 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
         super(data);
         //添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
+    }
+
+    //删除position位置的item后要更新该位置后面所有item的 POSITION 和 IS_SELECTED , checkCount 要记得--
+    public final void updateItemRangeFieldPosition(int positionStart){
+        int size = this.getData().size();
+        for(int i=positionStart;i<size;i++){
+            getData().get(i).setField(ShopCartItemFields.POSITION,i);
+            getData().get(i).setField(ShopCartItemFields.IS_SELECTED,false);
+            mCheckCount--;
+        }
     }
 
     public void setIsSelectedAll(boolean isSelectedAll){

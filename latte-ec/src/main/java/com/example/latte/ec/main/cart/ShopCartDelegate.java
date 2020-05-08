@@ -30,30 +30,62 @@ import butterknife.OnClick;
 
 public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
 
+    private ShopCartAdapter mAdapter = null;
+    //购物车数量标记
+    private int mCurrentCount = 0;
+    private int mTotalCount = 0;
+
     @BindView(R2.id.rv_shop_cart)
     RecyclerView mRecyclerView = null;
     @BindView(R2.id.icon_shop_cart_select_all)
     IconTextView mIconSelectAll = null;
 
     @OnClick(R2.id.icon_shop_cart_select_all)
-    void onClickSelectAll(){
+    void onClickSelectAll() {
         final int tag = (int) mIconSelectAll.getTag();
-        if(tag==0){
+        if (tag == 0) {
             mIconSelectAll.setTextColor
-                    (ContextCompat.getColor(Latte.getApplicationContext(),R.color.app_main));
+                    (ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
             mIconSelectAll.setTag(1);
             mAdapter.setIsSelectedAll(true);
             //更新RecyclerView的显示状态
-            mAdapter.notifyItemRangeChanged(0,mAdapter.getItemCount());
-        }else {
+            mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount());
+        } else {
             mIconSelectAll.setTextColor(Color.GRAY);
             mIconSelectAll.setTag(0);
             mAdapter.setIsSelectedAll(false);
-            mAdapter.notifyItemRangeChanged(0,mAdapter.getItemCount());
+            mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount());
         }
     }
 
-    private ShopCartAdapter mAdapter = null;
+    @OnClick(R2.id.tv_top_shop_cart_remove_selected)
+    void onClickRemoveSelectedItem() {
+        final List<MultipleItemEntity> data = mAdapter.getData();
+        //要删除的数据
+        List<MultipleItemEntity> deleteEntities = new ArrayList<>();
+        for (MultipleItemEntity entity : data) {
+            final boolean isSelected = entity.getFiled(ShopCartItemFields.IS_SELECTED);
+            if (isSelected) {
+                deleteEntities.add(entity);
+            }
+        }
+        int size = deleteEntities.size();
+        int entityPosition = 0;
+        for(int i=size-1;i>=0;i--){
+            entityPosition = deleteEntities.get(i).getFiled(ShopCartItemFields.POSITION);
+            if(entityPosition<=mAdapter.getItemCount()){
+                mAdapter.remove(entityPosition);
+            }
+        }
+        //更新数据
+        mAdapter.updateItemRangeFieldPosition(entityPosition);
+    }
+
+    @OnClick(R2.id.tv_top_shop_cart_clear)
+    void onClickClear() {
+        mAdapter.getData().clear();
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public Object setLayout() {
