@@ -2,7 +2,6 @@ package com.example.latte.ui.recycler;
 
 import android.support.annotation.ColorInt;
 
-import com.choices.divider.Divider;
 import com.choices.divider.DividerItemDecoration;
 
 /**

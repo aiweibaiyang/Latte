@@ -11,6 +11,7 @@ import com.example.latte.app.IUserChecker;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.ui.launcher.ScrollLauncherTag;
@@ -73,7 +74,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     //判断是否显示滑动启动页
     private void checkIsShowScroll(){
         if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())){
-            start(new LauncherScrollDelegate(), SINGLETASK);
+            getSupportDelegate(). start(new LauncherScrollDelegate(), SINGLETASK);
         }else {
             //检查用户是否登陆了APP
             AccountManager.checkAccount(new IUserChecker() {

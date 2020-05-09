@@ -1,7 +1,5 @@
 package com.example.latte.ui.recycler;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
 import java.util.LinkedHashMap;
 
 /**

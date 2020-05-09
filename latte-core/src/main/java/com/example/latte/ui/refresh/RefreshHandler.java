@@ -2,8 +2,6 @@ package com.example.latte.ui.refresh;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,7 +11,6 @@ import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.recycler.DataConverter;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
-import com.example.latte.util.log.LatteLogger;
 
 /**
  * Created by 25400 on 2020/4/14.

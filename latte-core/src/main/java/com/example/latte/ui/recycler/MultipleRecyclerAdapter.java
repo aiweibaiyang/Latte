@@ -13,7 +13,6 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.latte.R;
 import com.example.latte.ui.banner.BannerCreator;
-import com.example.latte.ui.image.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;
