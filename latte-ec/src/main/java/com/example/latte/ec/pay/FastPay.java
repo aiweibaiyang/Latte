@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +12,8 @@ import android.view.WindowManager;
 
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
+import com.example.latte.net.RestClient;
+import com.example.latte.net.callback.ISuccess;
 
 /**
  * Created by 25400 on 2020/5/10.
@@ -54,10 +57,39 @@ public class FastPay implements View.OnClickListener{
         }
     }
 
+    public FastPay setPayResultListener(IAlPayResultListener listener){
+        this.mIAlPayResultListener = listener;
+        return this;
+    }
+
+    public FastPay setOrderId(int orderId){
+        this.mOrderID = orderId;
+        return this;
+    }
+
+    public final void alPay(int orderId){
+        final String singUrl = "";
+        //获取签名字符串
+        RestClient.builder()
+                .url(singUrl)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final String paySign = "";
+                        //必须是异步的调用客服端支付接口
+                        final PayAsyncTask payAsyncTask = new PayAsyncTask(mActivity,mIAlPayResultListener);
+                        payAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,paySign);
+                    }
+                })
+                .build()
+                .post();
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_dialog_pay_alpay){
+            alPay(mOrderID);
             mDialog.cancel();
         }else if(id == R.id.btn_dialog_pay_wechat){
             mDialog.cancel();
