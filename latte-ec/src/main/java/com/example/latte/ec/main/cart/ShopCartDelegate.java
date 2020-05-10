@@ -15,6 +15,7 @@ import com.example.latte.app.Latte;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.ec.pay.FastPay;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.recycler.MultipleItemEntity;
@@ -92,7 +93,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess,ICa
 
     @OnClick(R2.id.tv_shop_cart_pay)
     void onClickPay(){
-
+        FastPay.create(this).beginPayDialog();
     }
 
     //创建订单，注意：和支付是没有关系的

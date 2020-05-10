@@ -41,4 +41,5 @@ dependencies {
     compile project(':latte-core')
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile project(':latte-ui')
+    compile files('libs/alipaySdk-20161222.jar')
 }
