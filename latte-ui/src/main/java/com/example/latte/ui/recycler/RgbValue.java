@@ -1,5 +1,6 @@
 package com.example.latte.ui.recycler;
 
+
 import com.google.auto.value.AutoValue;
 
 /**
