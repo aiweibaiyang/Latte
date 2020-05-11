@@ -10,10 +10,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.example.latte.app.ConfigKeys;
+import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
+import com.example.latte.ui.loader.LatteLoader;
+import com.example.latte.wechat.LatteWeChat;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 /**
  * Created by 25400 on 2020/5/10.
@@ -67,7 +75,7 @@ public class FastPay implements View.OnClickListener{
         return this;
     }
 
-    public final void alPay(int orderId){
+    private final void alPay(int orderId){
         final String singUrl = "";
         //获取签名字符串
         RestClient.builder()
@@ -79,6 +87,43 @@ public class FastPay implements View.OnClickListener{
                         //必须是异步的调用客服端支付接口
                         final PayAsyncTask payAsyncTask = new PayAsyncTask(mActivity,mIAlPayResultListener);
                         payAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,paySign);
+                    }
+                })
+                .build()
+                .post();
+    }
+
+    private final void weChatPay(int orderID){
+        LatteLoader.stopLoading();
+        final String weChatPrePayUrl = "";
+        final IWXAPI iwxapi = LatteWeChat.getInstance().getWXAPI();
+        final String appId = Latte.getConfiguration(ConfigKeys.WE_CHAT_APP_ID);
+        iwxapi.registerApp(appId);
+        //网络请求
+        RestClient.builder()
+                .url(weChatPrePayUrl)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final JSONObject result =
+                                JSON.parseObject(response).getJSONObject("result");
+                        final String prepayId = result.getString("prepayid");
+                        final String partnerId = result.getString("partnerid");
+                        final String packageValue = result.getString("package");
+                        final String timestamp = result.getString("timestamp");
+                        final String nonceStr = result.getString("noncestr");
+                        final String paySign = result.getString("sign");
+
+                        final PayReq payReq = new PayReq();
+                        payReq.appId = appId;
+                        payReq.prepayId = prepayId;
+                        payReq.partnerId = partnerId;
+                        payReq.packageValue = packageValue;
+                        payReq.timeStamp = timestamp;
+                        payReq.nonceStr = nonceStr;
+                        payReq.sign = paySign;
+
+                        iwxapi.sendReq(payReq);
                     }
                 })
                 .build()
