@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.main.personal.list.ListBean;
+import com.example.latte.ui.date.DateDialogUtil;
 
 /**
  * Created by 25400 on 2020/5/12.
@@ -42,21 +43,31 @@ public class UserProfileClickListener extends SimpleClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final TextView textView = view.findViewById(R.id.tv_arrow_value);
-//                        textView.setText();
+                        textView.setText(mGenders[which]);
+                        dialog.cancel();
                     }
                 });
                 break;
             case 4:
+                final DateDialogUtil dateDialogUtil = new DateDialogUtil();
+
+                dateDialogUtil.setDataListener(new DateDialogUtil.IDataListener() {
+                    @Override
+                    public void onDateChange(String date) {
+                        final TextView textView = view.findViewById(R.id.tv_arrow_value);
+                        textView.setText(date);
+                    }
+                });
+                dateDialogUtil.showDialog(DELEGATE.getContext());
                 break;
             default:
                 break;
-
         }
     }
 
-    private void getGenderDialog(DialogInterface.OnClickListener listener){
+    private void getGenderDialog(DialogInterface.OnClickListener listener) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(DELEGATE.getContext());
-        builder.setSingleChoiceItems(mGenders,0,listener);
+        builder.setSingleChoiceItems(mGenders, 0, listener);
         builder.show();
     }
 
