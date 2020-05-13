@@ -70,6 +70,15 @@ dependencies {
     annotationProcessor "com.google.auto.value:auto-value:1.4.1"
     //工具包
     compile 'com.blankj:utilcode:1.7.1'
+    //图片剪裁
+    compile 'com.github.yalantis:ucrop:2.2.1-native'
+//    //动态权限处理
+//    compile 'com.github.hotchemi:permissionsdispatcher:2.4.0'
+//    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
+    //动态权限处理
+    compile 'com.github.hotchemi:permissionsdispatcher:3.0.1'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
+
 
     //RecyclerView依赖
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'

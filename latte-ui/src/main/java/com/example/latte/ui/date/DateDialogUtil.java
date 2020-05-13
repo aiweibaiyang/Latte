@@ -17,17 +17,17 @@ import java.util.Locale;
 
 public class DateDialogUtil {
 
-    public interface IDataListener{
+    public interface IDataListener {
         void onDateChange(String date);
     }
 
     private IDataListener mDataListener = null;
 
-    public void setDataListener(IDataListener listener){
+    public void setDataListener(IDataListener listener) {
         this.mDataListener = listener;
     }
 
-    public void showDialog(Context context){
+    public void showDialog(Context context) {
         final LinearLayout ll = new LinearLayout(context);
         final DatePicker picker = new DatePicker(context);
         final LinearLayout.LayoutParams lp =
@@ -41,10 +41,10 @@ public class DateDialogUtil {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 final Calendar calendar = Calendar.getInstance();
-                calendar.set(year,monthOfYear,dayOfMonth);
+                calendar.set(year, monthOfYear, dayOfMonth);
                 final SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault());
                 final String data = format.format(calendar.getTime());
-                if (mDataListener!=null){
+                if (mDataListener != null) {
                     mDataListener.onDateChange(data);
                 }
             }
@@ -69,6 +69,5 @@ public class DateDialogUtil {
                 })
                 .show();
     }
-
 
 }
